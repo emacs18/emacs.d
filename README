@@ -1,0 +1,189 @@
+This is wor in progress ....
+
+
+initbuffet helps you setup and use multiple emacs configurations which you can
+select when you start emacs, e.g., type
+
+    emacs --with-profile spacemacs
+
+to setup emacs with spacemacs, or
+
+    emacs --with-profile doom
+
+to setup emacs with doom, etc. You can similarly setup any number of
+configurations which you can select when you start emacs.
+
+
+
+A few well known
+configurations are supported by default, but you should be able to add many
+others of your choosing.
+
+
+
+I created this for two reasons.
+
+1. Make it easy to install and test drive many different emacs configurations
+   such as spacemacs, doom, scimax, etc.
+
+2. Use straight.el package manager rather than package.el even on
+   configurations that use package.el by default.
+
+Installation
+
+- Clone this repository as ~/.emacs.d via something like this:
+
+    mv ~/.emacs.d /.emacs.d-original
+    git clone https://github.com/emacs18/initbuffet ~/.emacs.d
+    cd .emacs.d
+    make doom s-spacemacs s-scimax s-purcell
+
+  In the last step above you can choose whichever packages you are interested
+  in, i.e., you can add or remove them. See Makefile for full list of valid
+  targets.
+
+Using
+
+A simple shell script named bin/e is provided to save you from having to type
+--with-profile option if you care to use it.  To start emacs with a setup of your
+choice, just start emacs and specify the name of profile you want, e.g.,
+
+    emacs --with-profile doom
+    emacs --with-profile spacemacs
+    emacs --with-profile s-spacemacs
+    emacs --with-profile scimax
+    emacs --with-profile s-scimax
+    emacs --with-profile purcell
+    emacs --with-profile s-purcell
+
+Profiles with "s-" prefix are ones that use straight.el package manager.
+There is no s-doom profile since doom always uses straight.el.
+
+Implementation Details
+
+The bulk of the disk use is with the git repositories for the packages used by
+straight.el. Hence these repositories are shared between all configurations.
+Five configurations that use straight.el all share the same git repos located
+under ./straight/repos directory. This is done via using symlinks as shown
+here:
+
+ $ ls -ld */.local/straight/repos
+ lrwxrwxrwx 1 kimr kimr 23 Apr 12 15:11 doom/.local/straight/repos -> ../../../straight/repos
+ lrwxrwxrwx 1 kimr kimr 23 Apr 11 23:27 my-spacemacs/.local/straight/repos -> ../../../straight/repos
+ lrwxrwxrwx 1 kimr kimr 23 Apr 11 17:15 s-purcell/.local/straight/repos -> ../../../straight/repos
+ lrwxrwxrwx 1 kimr kimr 23 Apr 11 16:53 s-scimax/.local/straight/repos -> ../../../straight/repos
+ lrwxrwxrwx 1 kimr kimr 23 Apr 11 18:05 s-spacemacs/.local/straight/repos -> ../../../straight/repos
+ $ 
+
+
+$ tree spacemacs/elpa/27.2/develop
+├── ace-link-20210121.923
+│   ├── ace-link-autoloads.el
+│   ├── ace-link.el
+│   ├── ace-link.elc
+│   └── ace-link-pkg.el
+
+...
+
+├── winum-20190911.1607
+│   ├── winum-autoloads.el
+│   ├── winum.el
+│   ├── winum.elc
+│   └── winum-pkg.el
+
+
+
+$ cd /home/kimr/repos/my/initbuffet/
+$ du -sh */.local/straight/build-27.2.50
+33M	doom/.local/straight/build-27.2.50
+27M	s-purcell/.local/straight/build-27.2.50
+20M	s-scimax/.local/straight/build-27.2.50
+31M	s-spacemacs/.local/straight/build-27.2.50
+
+$ ls -ld */.local/straight/repos
+lrwxrwxrwx 1 kimr kimr 23 Apr 12 15:11 doom/.local/straight/repos -> ../../../straight/repos
+lrwxrwxrwx 1 kimr kimr 23 Apr 11 23:27 my-spacemacs/.local/straight/repos -> ../../../straight/repos
+lrwxrwxrwx 1 kimr kimr 23 Apr 11 17:15 s-purcell/.local/straight/repos -> ../../../straight/repos
+lrwxrwxrwx 1 kimr kimr 23 Apr 11 16:53 s-scimax/.local/straight/repos -> ../../../straight/repos
+lrwxrwxrwx 1 kimr kimr 23 Apr 11 18:05 s-spacemacs/.local/straight/repos -> ../../../straight/repos
+
+$ du -sh straight/repos
+2.6G	straight/repos
+$ 
+$ du -sh spacemacs/elpa/27.2/develop
+35M	spacemacs/elpa/27.2/develop
+
+$ tree purcell/elpa-27.2
+purcell/elpa-27.2
+├── a-20201203.1927
+│   ├── a-autoloads.el
+│   ├── a.el
+│   ├── a.elc
+│   └── a-pkg.el
+
+...
+
+├── yard-mode-20170817.1237
+│   ├── yard-mode-autoloads.el
+│   ├── yard-mode.el
+│   ├── yard-mode.elc
+│   └── yard-mode-pkg.el
+└── yari-20151128.739
+    ├── yari-autoloads.el
+    ├── yari.el
+    ├── yari.elc
+    └── yari-pkg.el
+
+257 directories, 2118 files
+
+
+
+$ tree scimax/elpa
+scimax/elpa
+├── ace-window-20200606.1259
+│   ├── ace-window-autoloads.el
+│   ├── ace-window.el
+│   ├── ace-window.elc
+│   └── ace-window-pkg.el
+├── ag-20201031.2202
+
+...
+
+└── zoutline-20190520.1819
+    ├── zoutline-autoloads.el
+    ├── zoutline.el
+    ├── zoutline.elc
+    └── zoutline-pkg.el
+
+122 directories, 1514 files
+$ 
+
+
+$ du -sh scimax/elpa
+47M	scimax/elpa
+$ 
+
+
+
+$ tree spacemacs/elpa/27.2/develop
+spacemacs/elpa/27.2/develop
+├── ace-jump-helm-line-20160918.1836
+│   ├── ace-jump-helm-line-autoloads.el
+│   ├── ace-jump-helm-line.el
+│   ├── ace-jump-helm-line.elc
+│   └── ace-jump-helm-line-pkg.el
+
+...
+
+└── ws-butler-20201117.1528
+    ├── ws-butler-autoloads.el
+    ├── ws-butler.el
+    ├── ws-butler.elc
+    └── ws-butler-pkg.el
+
+327 directories, 1817 files
+$ 
+
+$ du -sh spacemacs/elpa/27.2/develop
+35M	spacemacs/elpa/27.2/develop
+$ 
