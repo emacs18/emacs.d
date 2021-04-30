@@ -1,5 +1,8 @@
 
-all : chemacs2 doom purcell-s scimax-s spacemacs-s
+all : straight chemacs2 doom purcell-s scimax-s spacemacs-s
+
+straight :
+	mkdir -p straight/repos
 
 chemacs2 :
 	git clone https://github.com/plexus/chemacs2 $@
@@ -35,5 +38,10 @@ spacemacs :
 # Fork spacemacs to prepare for straight.el on branch named 'straight'.
 spacemacs-s :
 	git clone -b straight https://github.com/emacs18/spacemacs $@
+	mkdir -p $@/.local/straight
+	cd $@/.local/straight; ln -s ../../../straight/repos
+
+my-spacemacs :
+	git clone -b develop https://github.com/emacs18/spacemacs $@
 	mkdir -p $@/.local/straight
 	cd $@/.local/straight; ln -s ../../../straight/repos
