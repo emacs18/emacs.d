@@ -17,6 +17,8 @@
                     (env . (("SPACEMACSDIR" . "~/.emacs.d/my-spacemacs/.spacemacs")))))
  ("spacemacs"    . ((user-emacs-directory . "~/.emacs.d/spacemacs/")
                     (env . (("SPACEMACSDIR" . "~/.emacs.d/spacemacs/.spacemacs")))))
+ ("spacemacs-m"  . ((user-emacs-directory . "~/.emacs.d/spacemacs-m/")
+                    (env . (("SPACEMACSDIR" . "~/.emacs.d/spacemacs-m/.spacemacs")))))
  ("spacemacs-s"  . ((user-emacs-directory . "~/.emacs.d/spacemacs-s/")
                     (env . (("SPACEMACSDIR" . "~/.emacs.d/spacemacs-s/.spacemacs")))))
 
