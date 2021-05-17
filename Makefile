@@ -41,6 +41,9 @@ spacemacs-s :
 	mkdir -p $@/.local/straight
 	cd $@/.local/straight; ln -s ../../../straight/repos
 
+spacemacs-m :
+	git clone -b develop --reference ~/.emacs.d/my-spacemacs git@github.com:emacs18/spacemacs $@
+
 my-spacemacs :
 	git clone -b develop https://github.com/emacs18/spacemacs $@
 	mkdir -p $@/.local/straight
