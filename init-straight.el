@@ -122,7 +122,7 @@
 ;; https://github.com/raxod502/straight.el/issues/352
 ;; https://github.com/raxod502/straight.el/issues/624
 ;;
-(straight-use-package '(org-plus-contrib :includes org))
+(straight-use-package 'org)
 
 ;; Few package.el functions are advised below to allow spacemacs, scimax, and
 ;; other configurations to use straight.el rather than package.el.
