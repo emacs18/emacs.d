@@ -144,11 +144,11 @@
       (setq ad-return-value t)
     ad-do-it))
 
-(defadvice package-activate (around use-straight activate)
+(defun my-package-activate-via-straight (origfunc &rest args)
   "If package to be activated was installed by straight.el
 package manager, then simply call `straight-use-package' to make
 sure the package is installed and activated."
-  (let* ((arg0 (ad-get-arg 0))
+  (let* ((arg0 (car args))
          (pkg-sym (if (symbolp arg0)
                       arg0
                     (if (stringp arg0)
@@ -157,4 +157,6 @@ sure the package is installed and activated."
     (if (my-installed-by-straight-p pkg-sym)
         ;; FIXME: How should packages be activated?
         (straight-use-package pkg-sym)
-      ad-do-it)))
+      (apply origfunc args))))
+
+(advice-add 'package-activate :around #'my-package-activate-via-straight)
