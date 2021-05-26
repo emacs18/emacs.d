@@ -160,3 +160,6 @@ sure the package is installed and activated."
       (apply origfunc args))))
 
 (advice-add 'package-activate :around #'my-package-activate-via-straight)
+
+(defvar my-straight-in-use t
+  "This is non-nil if emacs was configured to use straight.el package manager.")
