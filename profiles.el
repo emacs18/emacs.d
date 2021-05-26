@@ -7,20 +7,21 @@
 ;; In most cases only user-emacs-directory needs to be set.
 
 (
- ("default"      . ((user-emacs-directory . "~/.emacs.d/my-spacemacs/")
-                    (env . (("SPACEMACSDIR" . "~/.emacs.d/my-spacemacs/.spacemacs")))))
+ ("default"      . ((user-emacs-directory . "~/.emacs.d/sm-m/")
+                    (env . (("SPACEMACSDIR" . "~/.emacs.d/sm-m/.spacemacs")))))
 
- ;; - my-spacemacs: for daily use; uses straight.el; this is default
- ;; - spacemacs:    Vanilla develop branch; uses package.el
- ;; - spacemacs-s:  Vanilla develop branch except to use straight.el
- ("my-spacemacs" . ((user-emacs-directory . "~/.emacs.d/my-spacemacs/")
-                    (env . (("SPACEMACSDIR" . "~/.emacs.d/my-spacemacs/.spacemacs")))))
- ("spacemacs"    . ((user-emacs-directory . "~/.emacs.d/spacemacs/")
-                    (env . (("SPACEMACSDIR" . "~/.emacs.d/spacemacs/.spacemacs")))))
- ("spacemacs-m"  . ((user-emacs-directory . "~/.emacs.d/spacemacs-m/")
-                    (env . (("SPACEMACSDIR" . "~/.emacs.d/spacemacs-m/.spacemacs")))))
- ("spacemacs-s"  . ((user-emacs-directory . "~/.emacs.d/spacemacs-s/")
-                    (env . (("SPACEMACSDIR" . "~/.emacs.d/spacemacs-s/.spacemacs")))))
+ ;; - sm-ms: use straight.el and my setup; this is default
+ ;; - sm-d : vanilla develop branch; uses package.el
+ ;; - sm-m : my setup, use pacakge.el
+ ;; - sm-s:  vanilla develop branch except to use straight.el
+ ("sm-ms" . ((user-emacs-directory . "~/.emacs.d/sm-ms/")
+             (env . (("SPACEMACSDIR" . "~/.emacs.d/sm-ms/.spacemacs")))))
+ ("sm-d" . ((user-emacs-directory . "~/.emacs.d/sm-d/")
+            (env . (("SPACEMACSDIR" . "~/.emacs.d/sm-d/.spacemacs")))))
+ ("sm-m" . ((user-emacs-directory . "~/.emacs.d/sm-m/")
+            (env . (("SPACEMACSDIR" . "~/.emacs.d/sm-m/.spacemacs")))))
+ ("sm-s" . ((user-emacs-directory . "~/.emacs.d/sm-s/")
+            (env . (("SPACEMACSDIR" . "~/.emacs.d/sm-s/.spacemacs")))))
 
  ;; "-s" suffix denotes versions that use straight.el.
  ;; doom already uses straight.el
