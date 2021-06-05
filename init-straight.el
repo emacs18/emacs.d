@@ -115,6 +115,28 @@
 ;;
 ;; (straight-override-recipe '(eyebrowse :host github :repo "emacsmirror/eyebrowse"))
 
+(straight-override-recipe '(devdocs :host github :repo "astoff/devdocs.el"))
+
+'(straight-override-recipe
+ `(org :type git
+       :repo "https://code.orgmode.org/bzg/org-mode.git"
+       :local-repo "org"
+       :depth full
+       :pre-build ,(list
+                    (concat
+                     (when
+                         (eq
+                          system-type
+                          'berkeley-unix) "g")
+                     "make")
+                    "autoloads"
+                    "./doc/org.texi"
+                    "./doc/orgguide.texi"
+                    (concat "EMACS="
+                            invocation-directory invocation-name))
+       :build (:not autoloads)
+       :files (:defaults "lisp/*.el" ("etc/styles/" "etc/styles/*") "doc/*.texi")))
+
 ;; How do you prevent installing 'org' package in addition to
 ;; 'org-plus-contrib'? Following seems to be the answer. This may need to be
 ;; tweaked when org 9.5 version comes out which splits up org and contrib parts
