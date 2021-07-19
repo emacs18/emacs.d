@@ -99,6 +99,8 @@
 (straight-use-package 'use-package) ; this is needed pretty much by all configuations
 (straight-use-package 'diminish)    ; this is needed by many setups, e.g., scimax
 
+(straight-use-package 'yaml) ; needed as of 2021/07/04
+
 ;; If recipes are to be over-ridden, then it should be done very early on before
 ;; the default recipe is used, e.g., right about here.  Following is an example
 ;; to use my own forked hook-helpers with a bug fix.
