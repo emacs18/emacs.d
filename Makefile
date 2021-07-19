@@ -48,3 +48,8 @@ sm-ms :
 	git clone -b develop https://github.com/emacs18/spacemacs $@
 	mkdir -p $@/.local/straight
 	cd $@/.local/straight; ln -s ../../../straight/repos
+
+ve : vanilla-emacs
+
+vanilla-emacs :
+	git clone https://github.com/lccambiaghi/vanilla-emacs $@
