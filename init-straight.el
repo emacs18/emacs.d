@@ -117,7 +117,8 @@
 ;;
 ;; (straight-override-recipe '(eyebrowse :host github :repo "emacsmirror/eyebrowse"))
 
-(straight-override-recipe '(devdocs :host github :repo "astoff/devdocs.el"))
+;; (straight-override-recipe '(devdocs :host github :repo "astoff/devdocs.el"))
+(straight-override-recipe '(p4 :host github :repo "emacs18/p4.el" :branch "site"))
 
 '(straight-override-recipe
  `(org :type git
