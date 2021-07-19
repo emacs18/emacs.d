@@ -120,6 +120,9 @@
 ;; (straight-override-recipe '(devdocs :host github :repo "astoff/devdocs.el"))
 (straight-override-recipe '(p4 :host github :repo "emacs18/p4.el" :branch "site"))
 
+;; Upstream URL for orb-contrib package is not accessible from snps.
+(straight-override-recipe '(org-contrib :host github :repo "emacs18/org-contrib" :branch "master"))
+
 '(straight-override-recipe
  `(org :type git
        :repo "https://code.orgmode.org/bzg/org-mode.git"
