@@ -34,5 +34,5 @@
  ("scimax"       . ((user-emacs-directory . "~/.emacs.d/scimax/")))
  ("scimax-s"     . ((user-emacs-directory . "~/.emacs.d/scimax-s/")))
 
- ("vanilla"      . ((user-emacs-directory . "~/.emacs.d/vanilla/")))
+ ("ve"           . ((user-emacs-directory . "~/.emacs.d/vanilla-emacs/")))
  )
