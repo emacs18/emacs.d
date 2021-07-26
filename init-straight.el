@@ -191,3 +191,5 @@ sure the package is installed and activated."
 
 (defvar my-straight-in-use t
   "This is non-nil if emacs was configured to use straight.el package manager.")
+
+(setq my-straight-in-use t)
