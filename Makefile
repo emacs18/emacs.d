@@ -49,26 +49,50 @@ sm-d : spacemacs
 
 sm-s : spacemacs
 	cd spacemacs; \
-	if `$(call GIT_HAS_BRANCH,sm-s)`; then \
-	  git worktree add ../sm-s sm-s; \
+	git checkout develop; \
+	if `$(call GIT_HAS_BRANCH,$@)`; then \
+	  git worktree add ../$@ $@; \
 	else \
-	  git worktree add ../sm-s develop; \
-	  cd ../sm-s; \
-	  git merge --squash sm-straight; \
-	  git commit -a -m 'merged sm-straight branch'; \
-	fi
+	  git worktree add ../$@; \
+	fi; \
 	mkdir -p $@/.local/straight
 	cd $@/.local/straight; \
 	  rm -f straight; \
 	  ln -s ../../../straight/repos
+	cd $@; \
+	  git merge --squash sm-straight; \
+	  git commit -a -m 'merged sm-straight branch'; \
 
 sm-m :
-	git clone -b develop --reference ~/.emacs.d/sm-ms git@github.com:emacs18/spacemacs $@
+	cd spacemacs; \
+	git checkout develop; \
+	if `$(call GIT_HAS_BRANCH,$@)`; then \
+	  git worktree add ../$@ $@; \
+	else \
+	  git worktree add ../$@; \
+	fi; \
+	cd $@; \
+	  git merge --squash sm-my; \
+	  git commit -a -m 'merged sm-my branch'; \
 
 sm-ms :
-	git clone -b develop https://github.com/emacs18/spacemacs $@
+	cd spacemacs; \
+	git checkout develop; \
+	if `$(call GIT_HAS_BRANCH,$@)`; then \
+	  git worktree add ../$@ $@; \
+	else \
+	  git worktree add ../$@; \
+	fi; \
 	mkdir -p $@/.local/straight
-	cd $@/.local/straight; ln -s ../../../straight/repos
+	cd $@/.local/straight; \
+	  rm -f straight; \
+	  ln -s ../../../straight/repos
+	cd $@; \
+	  git merge --squash sm-straight; \
+	  git commit -a -m 'merged sm-straight branch'; \
+	cd $@; \
+	  git merge --squash sm-my; \
+	  git commit -a -m 'merged sm-my branch'; \
 
 ve : vanilla-emacs
 
