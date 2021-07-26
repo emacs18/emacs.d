@@ -1,4 +1,6 @@
 
+GIT_HAS_BRANCH = git branch | grep -q -e "\b$(1)\b"
+
 all : straight chemacs2 doom purcell-s scimax-s sm-s
 
 straight :
@@ -32,14 +34,33 @@ scimax-s :
 	mkdir -p $@/.local/straight
 	cd $@/.local/straight; ln -s ../../../straight/repos
 
-sm-d :
-	git clone -b develop https://github.com/syl20bnr/spacemacs $@
-
-# Fork spacemacs to prepare for straight.el on branch named 'straight'.
-sm-s :
-	git clone -b straight https://github.com/emacs18/spacemacs $@
+spacemacs :
+	git clone -b develop https://github.com/emacs18/spacemacs $@
 	mkdir -p $@/.local/straight
 	cd $@/.local/straight; ln -s ../../../straight/repos
+
+sm-d : spacemacs
+	cd spacemacs; \
+	if `$(call GIT_HAS_BRANCH,sm-d)`; then \
+	  git worktree add ../sm-d sm-d; \
+	else \
+	  git worktree add ../sm-d develop; \
+	fi; \
+
+sm-s : spacemacs
+	cd spacemacs; \
+	if `$(call GIT_HAS_BRANCH,sm-s)`; then \
+	  git worktree add ../sm-s sm-s; \
+	else \
+	  git worktree add ../sm-s develop; \
+	  cd ../sm-s; \
+	  git merge --squash sm-straight; \
+	  git commit -a -m 'merged sm-straight branch'; \
+	fi
+	mkdir -p $@/.local/straight
+	cd $@/.local/straight; \
+	  rm -f straight; \
+	  ln -s ../../../straight/repos
 
 sm-m :
 	git clone -b develop --reference ~/.emacs.d/sm-ms git@github.com:emacs18/spacemacs $@
