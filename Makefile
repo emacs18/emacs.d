@@ -54,7 +54,7 @@ sm-s : spacemacs
 	  git worktree add ../$@ $@; \
 	else \
 	  git worktree add ../$@; \
-	fi; \
+	fi;
 	mkdir -p $@/.local/straight
 	cd $@/.local/straight; \
 	  rm -f straight; \
@@ -70,7 +70,7 @@ sm-m :
 	  git worktree add ../$@ $@; \
 	else \
 	  git worktree add ../$@; \
-	fi; \
+	fi;
 	cd $@; \
 	  git merge --squash sm-my; \
 	  git commit -a -m 'merged sm-my branch'; \
@@ -82,7 +82,7 @@ sm-ms :
 	  git worktree add ../$@ $@; \
 	else \
 	  git worktree add ../$@; \
-	fi; \
+	fi;
 	mkdir -p $@/.local/straight
 	cd $@/.local/straight; \
 	  rm -f straight; \
