@@ -94,6 +94,31 @@ sm-ms :
 	  git merge --squash sm-my; \
 	  git commit -a -m 'merged sm-my branch'; \
 
+update-m:
+	cd sm-my; git rebase develop
+	cd sm-m; \
+	  git reset HEAD~ \
+	  && git reset --hard \
+	  && git clean -fd -e .local \
+	  && git rebase develop \
+	  && git merge --squash sm-my \
+	  && git commit -a -m 'merged sm-my branch' \
+	  && git log --oneline --graph --format='%ai %h %an %s' -3 \
+
+update-ms:
+	cd sm-my; git rebase develop
+	cd sm-straight; git rebase develop
+	cd sm-ms; \
+	  git reset HEAD~2  \
+	  && git reset --hard \
+	  && git clean -fd -e .local \
+	  && git rebase develop \
+	  && git merge --squash sm-straight \
+	  && git commit -a -m 'merged sm-straight branch' \
+	  && git merge --squash sm-my \
+	  && git commit -a -m 'merged sm-my branch' \
+	  && git log --oneline --graph --format='%ai %h %an %s' -4 \
+
 ve : vanilla-emacs
 
 vanilla-emacs :
