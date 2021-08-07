@@ -35,4 +35,5 @@
  ("scimax-s"     . ((user-emacs-directory . "~/.emacs.d/scimax-s/")))
 
  ("ve"           . ((user-emacs-directory . "~/.emacs.d/vanilla-emacs/")))
+ ("or1719"       . ((user-emacs-directory . "~/.emacs.d/org-roam-1719/")))
  )
