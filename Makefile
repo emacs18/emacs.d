@@ -34,11 +34,13 @@ scimax-s :
 	mkdir -p $@/.local/straight
 	cd $@/.local/straight; ln -s ../../../straight/repos
 
+# git clone of spacemacs develop branch
 spacemacs :
 	git clone -b develop https://github.com/emacs18/spacemacs $@
 	mkdir -p $@/.local/straight
 	cd $@/.local/straight; ln -s ../../../straight/repos
 
+# spacemacs worktree for 'develop' branch without any of my changes
 sm-d : spacemacs
 	cd spacemacs; \
 	if `$(call GIT_HAS_BRANCH,sm-d)`; then \
@@ -47,6 +49,8 @@ sm-d : spacemacs
 	  git worktree add ../sm-d develop; \
 	fi; \
 
+# spacemacs worktree for 'develop' branch plus one change which is the
+# (squashed) merge of sm-straight branch.
 sm-s : spacemacs
 	cd spacemacs; \
 	git checkout develop; \
@@ -63,6 +67,8 @@ sm-s : spacemacs
 	  git merge --squash sm-straight; \
 	  git commit -a -m 'merged sm-straight branch'; \
 
+# spacemacs worktree for 'develop' branch plus one change which is the
+# (squashed) merge of sm-my branch.
 sm-m :
 	cd spacemacs; \
 	git checkout develop; \
@@ -75,6 +81,9 @@ sm-m :
 	  git merge --squash sm-my; \
 	  git commit -a -m 'merged sm-my branch'; \
 
+# spacemacs worktree for 'develop' branch plus these two changes:
+# - squashed merge of sm-straight branch
+# - squashed merge of sm-my branch
 sm-ms :
 	cd spacemacs; \
 	git checkout develop; \
@@ -94,7 +103,10 @@ sm-ms :
 	  git merge --squash sm-my; \
 	  git commit -a -m 'merged sm-my branch'; \
 
-update-m:
+update-spacemacs : spacemacs
+	cd spacemacs; git pull
+
+update-m : update-spacemacs
 	cd sm-my; git rebase develop
 	cd sm-m; \
 	  git reset HEAD~ \
@@ -105,9 +117,18 @@ update-m:
 	  && git commit -a -m 'merged sm-my branch' \
 	  && git log --oneline --graph --format='%ai %h %an %s' -3 \
 
-update-ms:
-	cd sm-my; git rebase develop
+update-s : update-spacemacs
 	cd sm-straight; git rebase develop
+	cd sm-s; \
+	  git reset HEAD~ \
+	  && git reset --hard \
+	  && git clean -fd -e .local \
+	  && git rebase develop \
+	  && git merge --squash sm-straight \
+	  && git commit -a -m 'merged sm-straight branch' \
+	  && git log --oneline --graph --format='%ai %h %an %s' -3 \
+
+update-ms : update-m update-s
 	cd sm-ms; \
 	  git reset HEAD~2  \
 	  && git reset --hard \
@@ -123,3 +144,17 @@ ve : vanilla-emacs
 
 vanilla-emacs :
 	git clone https://github.com/lccambiaghi/vanilla-emacs $@
+
+push-all :
+	cd spacemacs; git push
+	cd sm-my; git push -f
+	cd sm-straight git push -f
+	cd sm-m; git push -f
+	cd sm-s; git push -f
+	cd sm-ms; git push -f
+
+ls :
+	cd spacemacs; git log --oneline --graph --format='%ai %h %an %s' -1; echo ' '
+	cd sm-m; git log --oneline --graph --format='%ai %h %an %s' -2; echo ' '
+	cd sm-s; git log --oneline --graph --format='%ai %h %an %s' -2; echo ' '
+	cd sm-ms; git log --oneline --graph --format='%ai %h %an %s' -3; echo ' '
