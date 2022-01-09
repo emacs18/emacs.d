@@ -36,4 +36,5 @@
 
  ("ve"           . ((user-emacs-directory . "~/.emacs.d/vanilla-emacs/")))
  ("or1719"       . ((user-emacs-directory . "~/.emacs.d/org-roam-1719/")))
+ ("evil"         . ((user-emacs-directory . "~/.emacs.d/evil/")))
  )
