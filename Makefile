@@ -183,6 +183,7 @@ vanilla-emacs :
 	git clone https://github.com/lccambiaghi/vanilla-emacs $@
 
 push-all :
+	git push
 	cd spacemacs; git push
 	cd sm-my; git push -f
 	cd sm-straight git push -f
@@ -191,6 +192,7 @@ push-all :
 	cd sm-ms; git push -f
 
 pull-all :
+	git pull
 	cd spacemacs; git pull -f
 	cd sm-my; git pull -f
 	cd sm-straight git pull -f
