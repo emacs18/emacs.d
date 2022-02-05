@@ -196,10 +196,21 @@ pull-all :
 	cd spacemacs; git pull -f
 	cd sm-my; git pull -f
 	cd sm-straight git pull -f
-	cd sm-m; git pull -f
-	cd sm-s; git pull -f
-	cd sm-ms; git pull -f
-
+	cd sm-m; \
+	  git reset HEAD~ > /dev/null \
+	  && git reset --hard \
+	  && git clean -fd -e .local \
+	  && git pull -f
+	cd sm-s; \
+	  git reset HEAD~ > /dev/null \
+	  && git reset --hard \
+	  && git clean -fd -e .local \
+	  && git pull -f
+	cd sm-ms; \
+	  git reset HEAD~2 > /dev/null \
+	  && git reset --hard \
+	  && git clean -fd -e .local \
+	  && git pull -f
 
 ls :
 	cd spacemacs; git log --oneline --graph --format='%ai %h %an %s' -1; echo ' '
