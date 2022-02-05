@@ -1,7 +1,10 @@
 
-GIT_HAS_BRANCH = git branch | grep -q -e "\b$(1)\b"
+include ~/org/kimr/admin/Makefile_common
 
-all : straight chemacs2 doom purcell-s scimax-s sm-s
+all :
+
+# Initial setup to create directories
+setup : straight chemacs2 doom purcell-s scimax-s spacemacs sm-my sm-straight sm-d sm-s sm-m sm-ms
 
 straight :
 	mkdir -p straight/repos
@@ -39,6 +42,17 @@ spacemacs :
 	git clone -b develop https://github.com/emacs18/spacemacs $@
 	mkdir -p $@/.local/straight
 	cd $@/.local/straight; ln -s ../../../straight/repos
+
+sm-my sm-straight :
+	cd spacemacs; \
+	git checkout develop; \
+	if `$(call GIT_HAS_BRANCH,$@)`; then \
+	  git worktree add ../$@ $@; \
+	else \
+	  git worktree add ../$@; \
+	fi;
+
+sm-straight :
 
 # spacemacs worktree for 'develop' branch without any of my changes
 sm-d : spacemacs
@@ -103,13 +117,29 @@ sm-ms :
 	  git merge --squash sm-my; \
 	  git commit -a -m 'merged sm-my branch'; \
 
-update-spacemacs : spacemacs
-	cd spacemacs; git pull
+# Update all my spacemacs and/or straight related worktrees
+update : update.spacemacs update.sm-my update.sm-straight update-m update-s update-ms
 
-update-m : update-spacemacs
-	cd sm-my; git rebase develop
+update.spacemacs :
+	cd spacemacs && git checkout develop && git pull upstream develop
+
+update.sm-my update.sm-straight :
+	WORKTREE=$(patsubst .%,%,$(suffix $@)); \
+	cd $$WORKTREE; \
+	if ! $(GIT_IS_CLEAN); then \
+	  echo "Error: $$WORKTREE is not clean"; \
+	  exit 1; \
+	else \
+	  git checkout $$WORKTREE && git rebase develop; \
+	fi
+
+update-m :
+	@cd sm-m; if [ "`git log --format='%s' -1`" != 'merged sm-my branch' ]; then \
+	  echo "Error: sm-m branch has unexpected changes"; \
+	  exit 1; \
+	fi
 	cd sm-m; \
-	  git reset HEAD~ \
+	  git reset HEAD~ > /dev/null \
 	  && git reset --hard \
 	  && git clean -fd -e .local \
 	  && git rebase develop \
@@ -117,10 +147,13 @@ update-m : update-spacemacs
 	  && git commit -a -m 'merged sm-my branch' \
 	  && git log --oneline --graph --format='%ai %h %an %s' -3 \
 
-update-s : update-spacemacs
-	cd sm-straight; git rebase develop
+update-s :
+	@cd sm-s; if [ "`git log --format='%s' -1`" != 'merged sm-straight branch' ]; then \
+	  echo "Error: sm-s branch has unexpected changes"; \
+	  exit 1; \
+	fi
 	cd sm-s; \
-	  git reset HEAD~ \
+	  git reset HEAD~ > /dev/null \
 	  && git reset --hard \
 	  && git clean -fd -e .local \
 	  && git rebase develop \
@@ -128,9 +161,13 @@ update-s : update-spacemacs
 	  && git commit -a -m 'merged sm-straight branch' \
 	  && git log --oneline --graph --format='%ai %h %an %s' -3 \
 
-update-ms : update-m update-s
+update-ms :
+	@cd sm-ms; if [ "`git log --format='%s' -1`" != 'merged sm-my branch' ]; then \
+	  echo "Error: sm-ms branch has unexpected changes"; \
+	  exit 1; \
+	fi
 	cd sm-ms; \
-	  git reset HEAD~2  \
+	  git reset HEAD~2  > /dev/null \
 	  && git reset --hard \
 	  && git clean -fd -e .local \
 	  && git rebase develop \
@@ -152,6 +189,15 @@ push-all :
 	cd sm-m; git push -f
 	cd sm-s; git push -f
 	cd sm-ms; git push -f
+
+pull-all :
+	cd spacemacs; git pull -f
+	cd sm-my; git pull -f
+	cd sm-straight git pull -f
+	cd sm-m; git pull -f
+	cd sm-s; git pull -f
+	cd sm-ms; git pull -f
+
 
 ls :
 	cd spacemacs; git log --oneline --graph --format='%ai %h %an %s' -1; echo ' '
