@@ -124,12 +124,13 @@ update.spacemacs :
 	cd spacemacs && git checkout develop && git pull upstream develop
 
 update.sm-my update.sm-straight :
-	WORKTREE=$(patsubst .%,%,$(suffix $@)); \
+	@WORKTREE=$(patsubst .%,%,$(suffix $@)); \
 	cd $$WORKTREE; \
 	if ! $(GIT_IS_CLEAN); then \
 	  echo "Error: $$WORKTREE is not clean"; \
 	  exit 1; \
 	else \
+	  echo "Rebase $$WORKTREE to develop ..."; \
 	  git checkout $$WORKTREE && git rebase develop; \
 	fi
 
