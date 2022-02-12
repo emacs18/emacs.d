@@ -109,28 +109,44 @@
 ;;;****************************************************************************
 
 ;; If recipes are to be over-ridden, then it should be done very early on before
-;; the default recipe is used, e.g., right about here.  Following is an example
-;; to use my own forked hook-helpers with a bug fix.
-;;
-;; (straight-override-recipe
-;;  '(hook-helpers :type git :host github :repo "emacs-straight/hook-helpers"
-;;                 :fork (:host github :repo "emacs18/hook-helpers")
-;;                 :branch "site" :files ("*" (:exclude ".git"))))
+;; the default recipe is used.
 
-;; Another reason to use custom recipe is to work around internet access
-;; problems. For example if your company does not allow access to ".cc" domain,
-;; but allows access to github, then you might want to uncomment this, because
-;; url for the package is https://depp.brause.cc/eyebrowse.git.
-;;
-;; (straight-override-recipe '(eyebrowse :host github :repo "emacsmirror/eyebrowse"))
+;; Fork of https://github.com/emacs-helm/helm-wordnut to add ivy support.
+(straight-override-recipe
+ '(counsel-wordnut :host github :repo "thanhvg/counsel-wordnut"))
+
+;; My fork of https://depp.brause.cc/eyebrowse.git for sites that can't access
+;; the original url.
+(straight-override-recipe
+ '(eyebrowse :host github :repo "emacsmirror/eyebrowse"))
 
 ;; (straight-override-recipe '(devdocs :host github :repo "astoff/devdocs.el"))
-(straight-override-recipe '(p4 :host github :repo "emacs18/p4.el" :branch "site"))
 
-;; Upstream URL for orb-contrib package is not accessible from snps.
 (straight-override-recipe
- '(org-contrib :host github :repo "emacs18/org-contrib" :branch "master"))
+ '(google-suggest :host github :repo "thanhvg/emacs-google-suggest"))
 
+(straight-override-recipe
+ '(helm-wordnut :host github :repo "manuel-uberti/helm-wordnut"))
+
+(straight-override-recipe
+ '(highlight-parentheses :host github :branch "master"
+                         :repo "emacsmirror/highlight-parentheses"))
+
+;; If recipes are to be over-ridden, then it should be done very early on before
+;; the default recipe is used, e.g., right about here. Following is an example
+;; to use my own forked package with a bug fix.
+;;
+(straight-override-recipe
+ '(hook-helpers :type git :host github :repo "emacs-straight/hook-helpers"
+                :fork (:host github :repo "emacs18/hook-helpers")
+                :branch "site" :files ("*" (:exclude ".git"))))
+
+;; This is to include use-package-dash-docs.el in the package. -rk 9/4/2021
+(straight-override-recipe
+ '(dash-docs
+   :type git :host github :repo "dash-docs-el/dash-docs" :files ("*.el")))
+
+;; I copied this from somewhere, but I have not used this for a long time. -rk 2/11/2022
 '(straight-override-recipe
  `(org :type git
        :repo "https://code.orgmode.org/bzg/org-mode.git"
@@ -150,6 +166,16 @@
                             invocation-directory invocation-name))
        :build (:not autoloads)
        :files (:defaults "lisp/*.el" ("etc/styles/" "etc/styles/*") "doc/*.texi")))
+
+;; Upstream URL for orb-contrib package is not accessible from snps.
+(straight-override-recipe
+ '(org-contrib :host github :repo "emacs18/org-contrib" :branch "master"))
+
+(straight-override-recipe
+ '(p4 :host github :repo "emacs18/p4.el" :branch "site"))
+
+(straight-override-recipe
+ '(paredit :host github :repo "emacsmirror/paredit"))
 
 ;;;****************************************************************************
 ;;;@ Install essential packages
