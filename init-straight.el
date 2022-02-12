@@ -9,6 +9,10 @@
 ;;
 ;;; License: GPLv3
 
+;;;****************************************************************************
+;;;@ Customize parameters prior to loading bootstrap file
+;;;****************************************************************************
+
 ;; This should be loaded very early on before any packages are installed to
 ;;
 ;; - initialize straight.el to install packages under ~/.emacs.d/straight/
@@ -79,6 +83,10 @@
 ;; You set set which profile to use.
 ;; (setq straight-current-profile 'profile1)
 
+;;;****************************************************************************
+;;;@ Load bootstrap file
+;;;****************************************************************************
+
 ;; Following few lines are standard bootstrap setup lines from
 ;; https://github.com/raxod502/straight.el.git
 ;; except use of straight-base-dir rather than user-home-directory.
@@ -87,7 +95,8 @@
        (expand-file-name "straight/repos/straight.el/bootstrap.el" straight-base-dir))
       (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
+    (error "Error: bootstrap.el is missing")
+    '(with-current-buffer
         (url-retrieve-synchronously
          "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
          'silent 'inhibit-cookies)
@@ -95,11 +104,9 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; Install few widely used packages.
-(straight-use-package 'use-package) ; this is needed pretty much by all configuations
-(straight-use-package 'diminish)    ; this is needed by many setups, e.g., scimax
-
-(straight-use-package 'yaml) ; needed as of 2021/07/04
+;;;****************************************************************************
+;;;@ Over-ride straight recipes
+;;;****************************************************************************
 
 ;; If recipes are to be over-ridden, then it should be done very early on before
 ;; the default recipe is used, e.g., right about here.  Following is an example
@@ -121,7 +128,8 @@
 (straight-override-recipe '(p4 :host github :repo "emacs18/p4.el" :branch "site"))
 
 ;; Upstream URL for orb-contrib package is not accessible from snps.
-(straight-override-recipe '(org-contrib :host github :repo "emacs18/org-contrib" :branch "master"))
+(straight-override-recipe
+ '(org-contrib :host github :repo "emacs18/org-contrib" :branch "master"))
 
 '(straight-override-recipe
  `(org :type git
@@ -143,6 +151,16 @@
        :build (:not autoloads)
        :files (:defaults "lisp/*.el" ("etc/styles/" "etc/styles/*") "doc/*.texi")))
 
+;;;****************************************************************************
+;;;@ Install essential packages
+;;;****************************************************************************
+
+;; Install few widely used packages.
+(straight-use-package 'use-package) ; this is needed pretty much by all configuations
+(straight-use-package 'diminish)    ; this is needed by many setups, e.g., scimax
+
+(straight-use-package 'yaml) ; needed as of 2021/07/04
+
 ;; How do you prevent installing 'org' package in addition to
 ;; 'org-plus-contrib'? Following seems to be the answer. This may need to be
 ;; tweaked when org 9.5 version comes out which splits up org and contrib parts
@@ -151,6 +169,10 @@
 ;; https://github.com/raxod502/straight.el/issues/624
 ;;
 (straight-use-package 'org)
+
+;;;****************************************************************************
+;;;@ Modify package.el to use straight
+;;;****************************************************************************
 
 ;; Few package.el functions are advised below to allow spacemacs, scimax, and
 ;; other configurations to use straight.el rather than package.el.
@@ -188,8 +210,3 @@ sure the package is installed and activated."
       (apply origfunc args))))
 
 (advice-add 'package-activate :around #'my-package-activate-via-straight)
-
-(defvar my-straight-in-use t
-  "This is non-nil if emacs was configured to use straight.el package manager.")
-
-(setq my-straight-in-use t)
