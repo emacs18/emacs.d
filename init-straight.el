@@ -230,9 +230,27 @@ sure the package is installed and activated."
                     (if (stringp arg0)
                         (intern arg0)
                       (package-desc-name arg0)))))
-    (if (my-installed-by-straight-p pkg-sym)
+    (if t ;; (my-installed-by-straight-p pkg-sym)
         ;; FIXME: How should packages be activated?
         (straight-use-package pkg-sym)
+      (message "### %s was not installed by straight" pkg-sym)
       (apply origfunc args))))
 
 (advice-add 'package-activate :around #'my-package-activate-via-straight)
+
+;; Advised package-activate-1 as well after learning that this was called rather
+;; than package-active within package.el. -rk 2/19/2022
+(defun my-package-activate-1-via-straight (origfunc &rest args)
+  "If package to be activated was installed by straight.el
+package manager, then simply call `straight-use-package' to make
+sure the package is installed and activated."
+  (let* ((pkg-desc (car args))
+         (pkg-name (package-desc-name pkg-desc))
+         (pkg-sym (if (stringp pkg-name) (intern pkg-name) pkg-name)))
+    (if (my-installed-by-straight-p (symbol-name pkg-sym))
+        ;; FIXME: How should packages be activated?
+        (straight-use-package pkg-sym)
+      (message "### %s was not installed by straight" pkg-name)
+      (apply origfunc args))))
+
+;; (advice-add 'package-activate-1 :around #'my-package-activate-1-via-straight)
