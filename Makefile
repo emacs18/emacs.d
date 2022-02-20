@@ -218,3 +218,5 @@ ls :
 	cd sm-m; git log --oneline --graph --format='%ai %h %an %s' -2; echo ' '
 	cd sm-s; git log --oneline --graph --format='%ai %h %an %s' -2; echo ' '
 	cd sm-ms; git log --oneline --graph --format='%ai %h %an %s' -3; echo ' '
+	cd sm-straight; git log --oneline --graph --format='%ai %h %an %s' sm-straight ^develop; echo ' '
+	cd sm-my; git log --oneline --graph --format='%ai %h %an %s' sm-my ^develop; echo ' '
