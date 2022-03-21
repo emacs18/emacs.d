@@ -184,6 +184,7 @@ vanilla-emacs :
 	git clone https://github.com/lccambiaghi/vanilla-emacs $@
 
 push-all :
+	git checkout main
 	git push
 	cd spacemacs; git push
 	cd sm-my; git push -f
