@@ -215,9 +215,10 @@ pull-all :
 	  && git pull -f
 
 ls :
-	cd spacemacs; git log --oneline --graph --format='%ai %h %an %s' -1; echo ' '
-	cd sm-m; git log --oneline --graph --format='%ai %h %an %s' -2; echo ' '
-	cd sm-s; git log --oneline --graph --format='%ai %h %an %s' -2; echo ' '
-	cd sm-ms; git log --oneline --graph --format='%ai %h %an %s' -3; echo ' '
-	cd sm-straight; git log --oneline --graph --format='%ai %h %an %s' sm-straight ^develop; echo ' '
-	cd sm-my; git log --oneline --graph --format='%ai %h %an %s' sm-my ^develop; echo ' '
+	@cd spacemacs; DEVREV=`git log --oneline --graph --format='%h' develop -2 | tail -1 | sed 's/^\* \(.*\)/\1/'`; \
+	  echo "spacemacs"   ; cd ../spacemacs;	  git log --oneline --graph --format='%ai %h %an %s' -1; echo ' '; \
+	  echo "sm-m"	     ; cd ../sm-m;	  git log --oneline --graph --format='%ai %h %an %s' sm-m        ^$$DEVREV; echo ' '; \
+	  echo "sm-s"	     ; cd ../sm-s;	  git log --oneline --graph --format='%ai %h %an %s' sm-s        ^$$DEVREV; echo ' '; \
+	  echo "sm-ms"	     ; cd ../sm-ms;	  git log --oneline --graph --format='%ai %h %an %s' sm-ms       ^$$DEVREV; echo ' '; \
+	  echo "sm-straight" ; cd ../sm-straight; git log --oneline --graph --format='%ai %h %an %s' sm-straight ^$$DEVREV; echo ' '; \
+	  echo "sm-my"	     ; cd ../sm-my;	  git log --oneline --graph --format='%ai %h %an %s' sm-my       ^$$DEVREV; echo ' '; \
