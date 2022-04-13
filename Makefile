@@ -1,7 +1,7 @@
 
 include ~/org/kimr/admin/Makefile_common
 
-all :
+all : ls
 
 # Initial setup to create directories
 setup : straight chemacs2 doom purcell-s scimax-s spacemacs sm-my sm-straight sm-d sm-s sm-m sm-ms
