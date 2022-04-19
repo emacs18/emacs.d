@@ -36,7 +36,11 @@
 ;; convention seemed reasonable.
 
 ;; Install packages under build-<EMACS_VERSION> sub-directory of straight-base-dir.
-(setq straight-build-dir (format "build-%s" emacs-version))
+(setq straight-build-dir (format "build-%s.%s-%s"
+                                 emacs-major-version emacs-minor-version
+                                 (format-time-string "%m%d%H" emacs-build-time)
+                                 ;; (substring emacs-repository-version 0 8)
+                                 ))
 
 ;; Use "develop" rather than default "master" to use bleeding edge version of
 ;; straight.el.
