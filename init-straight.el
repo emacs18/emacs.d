@@ -108,6 +108,14 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+;; Normally straight.el does not need to know your user names on github, gitlab,
+;; etc. However you may need to specify it if you forked a package, and you fork
+;; is at github or other sites.
+(setq straight-host-usernames
+      '((github . "emacs18")
+        (gitlab . "gitlabUser")
+        (bitbucket . "bitbucketUser")))
+
 ;;;****************************************************************************
 ;;;@ Over-ride straight recipes
 ;;;****************************************************************************
@@ -180,6 +188,31 @@
 
 (straight-override-recipe
  '(paredit :host github :repo "emacsmirror/paredit"))
+
+;; If recipes are to be over-ridden, then it should be done very early on before
+;; the default recipe is used, e.g., right about here.  Following is an example
+;; to use my own forked package with a bug fix.
+;;
+(straight-override-recipe
+ '(hook-helpers :type git :host github :repo "emacs-straight/hook-helpers"
+                :fork (:host github :repo "emacs18/hook-helpers")
+                :branch "site" :files ("*" (:exclude ".git"))))
+
+;; My company intranet is limited in that many sites are not reachable such as
+;; https://depp.brause.cc/eyebrowse.git which is the default URL of eyebrowse
+;; package. Hence use github mirror instead.
+(straight-override-recipe '(eyebrowse :host github :repo "emacsmirror/eyebrowse"))
+(straight-override-recipe '(org-contrib :host github :repo "emacs18/org-contrib"))
+(straight-override-recipe '(paredit :host github :repo "emacsmirror/paredit"))
+(straight-override-recipe '(highlight-parentheses :host github :branch "master" :repo "emacsmirror/highlight-parentheses"))
+
+;; This is to include use-package-dash-docs.el in the package. -rk 9/4/2021
+(straight-override-recipe
+ '(dash-docs
+   :type git :host github :repo "dash-docs-el/dash-docs" :files ("*.el")))
+
+(straight-override-recipe '(gendoxy :host github :repo "mp81ss/gendoxy"))
+(straight-override-recipe '(inspector :host github :repo "mmontone/emacs-inspector"))
 
 ;;;****************************************************************************
 ;;;@ Install essential packages
