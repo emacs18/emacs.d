@@ -23,6 +23,8 @@
  ("sm-s" . ((user-emacs-directory . "~/.emacs.d/sm-s/")
             (env . (("SPACEMACSDIR" . "~/.emacs.d/sm-s/.spacemacs")))))
 
+ ("my-base" . ((user-emacs-directory . "~/.emacs.d/my-base/")))
+
  ;; "-s" suffix denotes versions that use straight.el.
  ;; doom already uses straight.el
  ("doom"         . ((user-emacs-directory . "~/.emacs.d/doom/")
