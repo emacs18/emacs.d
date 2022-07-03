@@ -153,6 +153,9 @@
                 :fork (:host github :repo "emacs18/hook-helpers")
                 :branch "site" :files ("*" (:exclude ".git"))))
 
+(straight-override-recipe
+ '(nongnu-elpa :host github :repo "emacs18/nongnu-elpa"))
+
 ;; This is to include use-package-dash-docs.el in the package. -rk 9/4/2021
 (straight-override-recipe
  '(dash-docs
