@@ -217,6 +217,9 @@
 (straight-override-recipe '(gendoxy :host github :repo "mp81ss/gendoxy"))
 (straight-override-recipe '(inspector :host github :repo "mmontone/emacs-inspector"))
 
+;; spacemacs started using this in recent weeks.  -rk 7/17/2022
+(straight-override-recipe '(term-cursor :host github :repo "h0d/term-cursor.el"))
+
 ;;;****************************************************************************
 ;;;@ Install essential packages
 ;;;****************************************************************************
