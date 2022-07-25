@@ -194,10 +194,10 @@ push-all :
 	cd sm-ms; git push -f
 
 pull-all :
-	git pull
+	git checkout main; git pull
 	cd spacemacs; git pull -f
 	cd sm-my; git pull -f
-	cd sm-straight git pull -f
+	cd sm-straight; git pull -f
 	cd sm-m; \
 	  git reset HEAD~ > /dev/null \
 	  && git reset --hard \
